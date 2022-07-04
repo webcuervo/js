@@ -1,7 +1,14 @@
-let edad = parseInt(prompt("ingresa tu edad"))
-let nombre = prompt("ingresa tu nombre")
-let apellido = prompt("ingresa tu apellido")
+let cantidad = parseInt(prompt("Ingrese un numero"))
 
-let salida = "Nombre y apellido: " + nombre + " " + apellido + ", de " + edad + " años" 
 
-alert(salida)
+for (let i = 1 ; i = cantidad ; i++) {
+
+    if(i%2===0 && i!=0) {
+        document.write(i + "es par <br>")
+    }
+
+    else {(i%2===0 && i!=0) 
+        document.write(i + "es impar <br>")
+    }
+}
+

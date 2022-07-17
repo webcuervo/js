@@ -8,11 +8,11 @@ function producto(id, nombre, precio, stock) {
     this.stock = stock;
 }
 
-const producto1 = new producto("P01", "Aceite de Neem", 200, 25)
-const producto2 = new producto("P02", "Sustrato", 1900, 12)
-const producto3 = new producto("P03", "Fertilizante organico", 1200, 9)
-const producto4 = new producto("P04", "Tijera de poda", 2900, 2)
-const producto5 = new producto("P05", "Maceta 2 litros", 900, 50)
+const producto1 = new producto("P01", "aceite de neem", 200, 25)
+const producto2 = new producto("P02", "sustrato", 1900, 12)
+const producto3 = new producto("P03", "fertilizante organico", 1200, 9)
+const producto4 = new producto("P04", "tijera de poda", 2900, 2)
+const producto5 = new producto("P05", "maceta 2 litros", 900, 50)
 
 // Array de objetos "producto"
 
@@ -36,12 +36,12 @@ function borrarProducto(idDelProducto) {
     console.log(productos)
     console.log(productos.length)
 }
-//borrarProducto(idDelProducto = prompt("Ingrese el codigo a eliminar"))
+borrarProducto(idDelProducto = prompt("Ingrese el id a eliminar"))
 
 // Buscador por nombre de producto
 
-const buscador = productos.filter((filter) => filter.precio === prompt("Que producto estas buscando?").toLowerCase())
-
+//let terminoDeBusqueda = prompt("Ingrese el producto que necesita").toLowerCase()
+const buscador = productos.filter((el) => el.nombre.includes (terminoDeBusqueda));
 console.log(buscador)
 
 
@@ -70,8 +70,9 @@ function envios(){
         }
 //envios();
 
-//Funcines flecha para operaciones simples
+//Funciones flecha
 const iva = x => x * 0.21
+
 let costo = 500
 let markup = x => x * 0.90
 let precioFinal = costo + iva(costo) + markup(costo)

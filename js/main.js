@@ -40,7 +40,7 @@ borrarProducto(idDelProducto = prompt("Ingrese el id a eliminar"))
 
 // Buscador por nombre de producto
 
-//let terminoDeBusqueda = prompt("Ingrese el producto que necesita").toLowerCase()
+let terminoDeBusqueda = prompt("Ingrese el producto que necesita").toLowerCase()
 const buscador = productos.filter((el) => el.nombre.includes (terminoDeBusqueda));
 console.log(buscador)
 
@@ -68,15 +68,14 @@ function envios(){
         else 
             console.log("tarda 4 días")}
         }
-//envios();
+envios();
 
 //Funciones flecha
 const iva = x => x * 0.21
-
 let costo = 500
 let markup = x => x * 0.90
 let precioFinal = costo + iva(costo) + markup(costo)
-//console.log("El total de su compra es de: " + precioFinal)
+console.log("El total de su compra es de: " + precioFinal)
 
 //Función financiación
 function pagoEnCuotas(){
@@ -92,5 +91,5 @@ function pagoEnCuotas(){
         }
     }
 
-//pagoEnCuotas()
+pagoEnCuotas()
 

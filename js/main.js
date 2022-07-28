@@ -1,18 +1,18 @@
 
 // Funcion constructora objetos
 
-function producto(id, nombre, precio, stock) {
+function producto(id, nombre, precio, img, descripcion) {
     this.id = id;
     this.nombre = nombre;
     this.precio = precio;
-    this.stock = stock;
+    this.img = img;
+    this.descripcion = descripcion;
 }
 
-const producto1 = new producto("P01", "aceite de neem", 200, 25)
-const producto2 = new producto("P02", "sustrato", 1900, 12)
-const producto3 = new producto("P03", "fertilizante organico", 1200, 9)
-const producto4 = new producto("P04", "tijera de poda", 2900, 2)
-const producto5 = new producto("P05", "maceta 2 litros", 900, 50)
+const producto1 = new producto("P01", "Living Carrara", 20000, "img/naomi-hebert-MP0bgaS_d1c-unsplash.jpg", "Living moderno de sofisticado estilo con marmol de Carrara")
+const producto2 = new producto("P02", "Comedor Clásico", 190000, "img/home-2609600_1280.jpg", "Comedor Clásico estilo Renacentista" )
+const producto3 = new producto("P03", "Sofas Mágicos", 120000, "img/living-room-1835923_1280.jpg", "Sofas Indios traidos de India(?), especial para el dia del padre")
+const producto4 = new producto("P04", "Espacios grandes para mentes amplias", 290000, "img/furniture-998265_1280.jpg", "No paga expensas")
 
 // Array de objetos "producto"
 
@@ -21,12 +21,36 @@ productos.push(producto1);
 productos.push(producto2);
 productos.push(producto3);
 productos.push(producto4);
-productos.push(producto5);
-
-
 console.log(productos)
 console.log(productos.length)
 
+// Modificacion del Titulo con DOM
+
+
+let titulo = document.getElementById("titulo")
+console.log(titulo.innerText)
+titulo.innerText = "Market House"
+
+// Creacion de subtitulo con DOM
+
+let ofertas = document.createElement("div")
+ofertas.innerHTML = (`<h3 class="text-danger">Ofertas</h3>`)
+ofertas.classList.add("containner", "bg-light", "mt-5", "mb-5", "d-flex","justify-content-center")
+document.body.append(ofertas)
+
+// Funcion dinamica para crear cards de productos
+
+productos.forEach((producto) => {
+    document.getElementById("cardsdinamicas").innerHTML += 
+    `<div class="card col-3 m-2">
+    <img src="${producto.img}" class="card-img-top" alt="comedor">
+    <div class="card-body">
+        <h5 class="card-title">${producto.nombre}</h5>
+        <p class="card-text">${producto.descripcion} <br> <strong>Precio: U$D ${producto.precio}</strong></p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+</div>`
+})
 
 //Funcion borrar objeto del inventario de productos
 
@@ -36,11 +60,11 @@ function borrarProducto(idDelProducto) {
     console.log(productos)
     console.log(productos.length)
 }
-borrarProducto(idDelProducto = prompt("Ingrese el id a eliminar"))
+//borrarProducto(idDelProducto = prompt("Ingrese el id a eliminar"))
 
 // Buscador por nombre de producto
 
-let terminoDeBusqueda = prompt("Ingrese el producto que necesita").toLowerCase()
+//let terminoDeBusqueda = prompt("Ingrese el producto que necesita").toLowerCase()
 const buscador = productos.filter((el) => el.nombre.includes (terminoDeBusqueda));
 console.log(buscador)
 
@@ -68,14 +92,7 @@ function envios(){
         else 
             console.log("tarda 4 días")}
         }
-envios();
-
-//Funciones flecha
-const iva = x => x * 0.21
-let costo = 500
-let markup = x => x * 0.90
-let precioFinal = costo + iva(costo) + markup(costo)
-console.log("El total de su compra es de: " + precioFinal)
+//envios();
 
 //Función financiación
 function pagoEnCuotas(){
@@ -91,5 +108,5 @@ function pagoEnCuotas(){
         }
     }
 
-pagoEnCuotas()
+//pagoEnCuotas()
 

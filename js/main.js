@@ -15,7 +15,7 @@ function modalCarrito() {
         <td><b>${producto.nombre}</b></td>
         <td><img class="card-img w-25 h-25" src="${producto.img}"></td>
         <td><b>${producto.precio}</b></td>
-        <td><button class="btn btn-danger btn-sm">Eliminar producto</button></td>
+        <td><button id="borrar-carrito-${producto.id}" class="btn btn-danger btn-sm">Eliminar producto</button></td>
         </tr>`
     })
 }
@@ -53,11 +53,15 @@ let titulo = document.getElementById("titulo")
 console.log(titulo.innerText)
 titulo.innerText = "Market Garden-House"
 
-// Creacion de subtitulo con DOM
+// Creacion de categorias con DOM
 
 let ofertas = document.createElement("div")
-ofertas.innerHTML = (`<h3 class="text-danger">Ofertas</h3>`)
-ofertas.classList.add("containner", "bg-light", "mt-5", "mb-5", "d-flex","justify-content-center")
+ofertas.innerHTML = (
+    `<h3>Categorias</h3>
+    <h4>Muebles Interior</h4>
+    <h4>Muebles Exterior</h4>
+    `)
+ofertas.classList.add("containner", "bg-light", "mt-5", "mb-5", "text-align-center", "text-danger")
 document.body.append(ofertas)
 
 // Funcion dinamica para crear cards de productos
@@ -74,6 +78,7 @@ productos.forEach((producto) => {
     </div>
 </div>`
 })
+
 
 // Funcion Agregar al carrito
 
@@ -101,12 +106,22 @@ productos.forEach((producto) => {
 
 //Funcion borrar objeto del inventario de productos
 
-function borrarProducto(idDelProducto) {
-    const index = productos.findIndex((producto) => producto.id === idDelProducto)
+function borrarProductoCarrito() {
+    carrito.forEach((producto) => {
+        const idBorrar = `borrar-carrito-${producto.id}`
+        document.getElementById(idBorrar).addEventListener("click", (event) => {
+            //carrito.splice(producto.id)
+            alert("hola")
+    } 
+)})}
+
+
+
+    /* const index = productos.findIndex((producto) => producto.id === idDelProducto)
     productos.splice(index, 1)
     console.log(productos)
-    console.log(productos.length)
-}
+    console.log(productos.length) */
+
 //borrarProducto(idDelProducto = prompt("Ingrese el id a eliminar"))
 
 // Buscador por nombre de producto

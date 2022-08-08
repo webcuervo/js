@@ -1,4 +1,6 @@
-const carrito = JSON.parse(localStorage.getItem("carrito")) ?? []
+
+
+const carrito = JSON.parse(localStorage.getItem("carrito")) ??  []
 const total = carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0)
 document.getElementById("carrito-contador").innerHTML = `${carrito.length} - $${total}`
 
@@ -19,6 +21,37 @@ function modalCarrito() {
         </tr>`
     })
 }
+
+
+
+function borrarCarrito(id) {
+    const indiceBorrado = carrito.findIndex((producto) => producto.id === id)
+    //carrito.splice(indiceBorrado)
+    alert("hola")
+    }
+
+// Funcion vaciar carrito
+
+function vaciarCarrito() {
+            const carrito = []
+            document.getElementById("elemento-carrito").innerHTML = ""
+            localStorage.setItem("carrito", JSON.stringify(carrito))
+            const total = carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0)
+            document.getElementById("carrito-contador").innerHTML = `${carrito.length} - $${total}`
+            window.location.reload()
+
+}
+
+function finalizarCompra () {
+    carrito.forEach((producto) => {
+        document.getElementById("elemento-carrito").innerHTML = ""
+        const total = carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0)
+        document.getElementById("carrito-contador").innerHTML = `${carrito.length} - $${total}`
+        window.open('pages/fincompra.html')
+        //window.location.reload()
+        
+})} 
+
 
 
 // Funcion constructora objetos
@@ -44,14 +77,14 @@ productos.push(producto1);
 productos.push(producto2);
 productos.push(producto3);
 productos.push(producto4);
-console.log(productos)
-console.log(productos.length)
+//console.log(productos)
+//console.log(productos.length)
 
 // Modificacion del Titulo con DOM
 
 let titulo = document.getElementById("titulo")
 console.log(titulo.innerText)
-titulo.innerText = "Market Garden-House"
+titulo.innerText = "Market Garden-House 2"
 
 // Creacion de categorias con DOM
 
@@ -63,6 +96,7 @@ ofertas.innerHTML = (
     `)
 ofertas.classList.add("containner", "bg-light", "mt-5", "mb-5", "text-align-center", "text-danger")
 document.body.append(ofertas)
+
 
 // Funcion dinamica para crear cards de productos
 
@@ -89,32 +123,8 @@ productos.forEach((producto) => {
         localStorage.setItem("carrito", JSON.stringify(carrito))
         const total = carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0)
         document.getElementById("carrito-contador").innerHTML = `${carrito.length} - $${total}`
-        document.getElementById("elemento-carrito").innerHTML = ""
-        carrito.forEach((producto) => {
-            console.log(modalCarrito)
-            document.getElementById("elemento-carrito").innerHTML += 
-            `<tr>
-            <th scope="row">${producto.id}</th>
-            <td>${producto.nombre}</td>
-            <td>Cantidad</td>
-            <td>${producto.precio}</td>
-            </tr>`
         })
-})})
-
-
-
-//Funcion borrar objeto del inventario de productos
-
-function borrarProductoCarrito() {
-    carrito.forEach((producto) => {
-        const idBorrar = `borrar-carrito-${producto.id}`
-        document.getElementById(idBorrar).addEventListener("click", (event) => {
-            //carrito.splice(producto.id)
-            alert("hola")
-    } 
-)})}
-
+})
 
 
     /* const index = productos.findIndex((producto) => producto.id === idDelProducto)
@@ -126,9 +136,9 @@ function borrarProductoCarrito() {
 
 // Buscador por nombre de producto
 
-//let terminoDeBusqueda = prompt("Ingrese el producto que necesita").toLowerCase()
+/* let terminoDeBusqueda = prompt("Ingrese el producto que necesita").toLowerCase()
 const buscador = productos.filter((el) => el.nombre.includes (terminoDeBusqueda));
-console.log(buscador)
+console.log(buscador) */
 
 //Función envios
 function envios(){
@@ -156,7 +166,7 @@ function envios(){
 //envios();
 
 //Función financiación
-function pagoEnCuotas(){
+/* function pagoEnCuotas(){
     let cantidadDeCuotas = parseInt(prompt("Indique la cantidad de cuotas entre 1 y 12."))
         while (cantidadDeCuotas > 12){
             alert("Debe ingresar un numero entre 1 y 12")
@@ -167,7 +177,7 @@ function pagoEnCuotas(){
         else {
             alert("Debe ingresar un numero entre 1 y 12")
         }
-    }
+    } */
 
 //pagoEnCuotas()
 

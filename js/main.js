@@ -44,11 +44,13 @@ function vaciarCarrito() {
 
 function finalizarCompra () {
     carrito.forEach((producto) => {
+        const carrito = []
         document.getElementById("elemento-carrito").innerHTML = ""
+        localStorage.setItem("carrito", JSON.stringify(carrito))
         const total = carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0)
         document.getElementById("carrito-contador").innerHTML = `${carrito.length} - $${total}`
         window.open('pages/fincompra.html')
-        //window.location.reload()
+        window.location.reload()
         
 })} 
 

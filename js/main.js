@@ -102,7 +102,7 @@ productos.push(producto4);
 
 let titulo = document.getElementById("titulo")
 console.log(titulo.innerText)
-titulo.innerText = "Market Garden-House 2"
+titulo.innerText = "Market Garden-House"
 
 // Creacion de categorias con DOM
 

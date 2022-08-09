@@ -27,9 +27,10 @@ function borrarCarrito(id) {
     console.log(carrito)
     const indiceBorrado = carrito.findIndex((producto) => producto.id == id)
     console.log(indiceBorrado)
-    carrito.splice(indiceBorrado)
+    carrito.splice(indiceBorrado, 1)
     localStorage.setItem("carrito", JSON.stringify(carrito))
     const total = carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0)
+    document.getElementById("carrito-contador").innerHTML = `${carrito.length} - $${total}`
     document.getElementById("elemento-carrito").innerHTML = ""
     carrito.forEach((producto) => {
         document.getElementById("elemento-carrito").innerHTML +=
@@ -40,7 +41,7 @@ function borrarCarrito(id) {
         <td><b>${producto.precio}</b></td>
         <td><button id="borrar-carrito-${producto.id}" onclick="borrarCarrito(${producto.id})"class="btn btn-danger btn-sm">Eliminar producto</button></td>
         </tr>`
-        document.getElementById("carrito-contador").innerHTML = `${carrito.length} - $${total}`
+        
         
     })
     }

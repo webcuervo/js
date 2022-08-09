@@ -10,14 +10,13 @@ document.getElementById("carrito-contador").innerHTML = `${carrito.length} - $${
 function modalCarrito() {
     document.getElementById("elemento-carrito").innerHTML = ""
     carrito.forEach((producto) => {
-        console.log(modalCarrito)
         document.getElementById("elemento-carrito").innerHTML += 
         `<tr>
         <th scope="row">${producto.id}</th>
         <td><b>${producto.nombre}</b></td>
         <td><img class="card-img w-25 h-25" src="${producto.img}"></td>
         <td><b>${producto.precio}</b></td>
-        <td><button id="borrar-carrito-${producto.id}" class="btn btn-danger btn-sm">Eliminar producto</button></td>
+        <td><button id="borrar-carrito-${producto.id}" onclick="borrarCarrito(${producto.id})"class="btn btn-danger btn-sm">Eliminar producto</button></td>
         </tr>`
     })
 }
@@ -25,9 +24,25 @@ function modalCarrito() {
 
 
 function borrarCarrito(id) {
-    const indiceBorrado = carrito.findIndex((producto) => producto.id === id)
-    //carrito.splice(indiceBorrado)
-    alert("hola")
+    console.log(carrito)
+    const indiceBorrado = carrito.findIndex((producto) => producto.id == id)
+    console.log(indiceBorrado)
+    carrito.splice(indiceBorrado)
+    localStorage.setItem("carrito", JSON.stringify(carrito))
+    const total = carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0)
+    document.getElementById("elemento-carrito").innerHTML = ""
+    carrito.forEach((producto) => {
+        document.getElementById("elemento-carrito").innerHTML +=
+        `<tr>
+        <th scope="row">${producto.id}</th>
+        <td><b>${producto.nombre}</b></td>
+        <td><img class="card-img w-25 h-25" src="${producto.img}"></td>
+        <td><b>${producto.precio}</b></td>
+        <td><button id="borrar-carrito-${producto.id}" onclick="borrarCarrito(${producto.id})"class="btn btn-danger btn-sm">Eliminar producto</button></td>
+        </tr>`
+        document.getElementById("carrito-contador").innerHTML = `${carrito.length} - $${total}`
+        
+    })
     }
 
 // Funcion vaciar carrito

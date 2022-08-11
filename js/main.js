@@ -94,6 +94,9 @@ function producto(id, nombre, precio, img, descripcion, categoria) {
 
 const producto1 = new producto("001", "Living Carrara",20000, "img/naomi-hebert-MP0bgaS_d1c-unsplash.jpg", "Living moderno de sofisticado estilo con marmol de Carrara", "Muebles Interior")
 
+
+// Spread operator
+
 const producto2 = {
     ...producto1,
     id:"002",
@@ -123,8 +126,6 @@ const producto4 = {
     
 }
 
-// Spread de obejeto para crear uno nuevo
-
 const producto5 = {
     ...producto4,
     id: "005",
@@ -140,6 +141,7 @@ productos.push(producto3);
 productos.push(producto4);
 productos.push(producto5);
 
+// Funcion de fltrado de por categorias
 
 function filtrarPorCategoria(categoria) { 
     const productosFiltrados = productos.filter((producto) => producto.categoria === categoria)
@@ -204,15 +206,15 @@ productos.forEach((producto) => {
     /* const index = productos.findIndex((producto) => producto.id === idDelProducto)
     productos.splice(index, 1)
     console.log(productos)
-    console.log(productos.length) */
+    console.log(productos.length) 
 
 //borrarProducto(idDelProducto = prompt("Ingrese el id a eliminar"))
 
 // Buscador por nombre de producto
 
-/* let terminoDeBusqueda = prompt("Ingrese el producto que necesita").toLowerCase()
+let terminoDeBusqueda = prompt("Ingrese el producto que necesita").toLowerCase()
 const buscador = productos.filter((el) => el.nombre.includes (terminoDeBusqueda));
-console.log(buscador) */
+console.log(buscador)
 
 //Función envios
 function envios(){
@@ -240,7 +242,7 @@ function envios(){
 //envios();
 
 //Función financiación
-/* function pagoEnCuotas(){
+function pagoEnCuotas(){
     let cantidadDeCuotas = parseInt(prompt("Indique la cantidad de cuotas entre 1 y 12."))
         while (cantidadDeCuotas > 12){
             alert("Debe ingresar un numero entre 1 y 12")
@@ -253,4 +255,4 @@ function envios(){
         }
     } */
 
-//pagoEnCuotas()
+//pagoEnCuotas()*/

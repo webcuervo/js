@@ -1,8 +1,19 @@
 
+// Uso del Nullish coalescing operator
 
 const carrito = JSON.parse(localStorage.getItem("carrito")) ??  []
 const total = carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0)
 document.getElementById("carrito-contador").innerHTML = `${carrito.length} - $${total}`
+
+
+// Uso del operador AND
+
+carrito.length === 0 && Toastify({text: "El carrito está vacío", 
+                            className: "info", 
+                            gravity: "bottom", 
+                            style:{background:"linear-gradient(to right, #dc3545, #6f42c1)",
+                            }}).showToast() 
+
 
 
 // Generar modal de carrito
@@ -21,15 +32,14 @@ function modalCarrito() {
     })
 }
 
-
+// Funcion borrar elemento de carrito
 
 function borrarCarrito(id) {
-    console.log(carrito)
     const indiceBorrado = carrito.findIndex((producto) => producto.id == id)
-    console.log(indiceBorrado)
     carrito.splice(indiceBorrado, 1)
     localStorage.setItem("carrito", JSON.stringify(carrito))
     const total = carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0)
+    //document.getElementById("total-carrito").innerHTML = `Total: $${total}`
     document.getElementById("carrito-contador").innerHTML = `${carrito.length} - $${total}`
     document.getElementById("elemento-carrito").innerHTML = ""
     carrito.forEach((producto) => {
@@ -41,8 +51,6 @@ function borrarCarrito(id) {
         <td><b>${producto.precio}</b></td>
         <td><button id="borrar-carrito-${producto.id}" onclick="borrarCarrito(${producto.id})"class="btn btn-danger btn-sm">Eliminar producto</button></td>
         </tr>`
-        
-        
     })
     }
 
@@ -57,6 +65,8 @@ function vaciarCarrito() {
             window.location.reload()
 
 }
+
+// Funcion finalizar compra y reinicar el proceso
 
 function finalizarCompra () {
     carrito.forEach((producto) => {
@@ -73,7 +83,6 @@ function finalizarCompra () {
 
 
 // Funcion constructora objetos
-
 function producto(id, nombre, precio, img, descripcion, categoria) {
     this.id = id;
     this.nombre = nombre;
@@ -83,38 +92,77 @@ function producto(id, nombre, precio, img, descripcion, categoria) {
     this.categoria = categoria
 }
 
-const producto1 = new producto("001", "Living Carrara", 20000, "img/naomi-hebert-MP0bgaS_d1c-unsplash.jpg", "Living moderno de sofisticado estilo con marmol de Carrara", "Muebles Interior")
-const producto2 = new producto("002", "Comedor Clásico", 190000, "img/home-2609600_1280.jpg", "Comedor Clásico estilo Renacentista", "Muebles Exterior" )
-const producto3 = new producto("003", "Sofas Mágicos", 120000, "img/living-room-1835923_1280.jpg", "Sofas Indios traidos de India(?), especial para el dia del padre", "Muebles Interior")
-const producto4 = new producto("004", "Espacios grandes para mentes amplias", 290000, "img/furniture-998265_1280.jpg", "No paga expensas", "Muebles Exterior")
+const producto1 = new producto("001", "Living Carrara",20000, "img/naomi-hebert-MP0bgaS_d1c-unsplash.jpg", "Living moderno de sofisticado estilo con marmol de Carrara", "Muebles Interior")
+
+const producto2 = {
+    ...producto1,
+    id:"002",
+    nombre:"Comedor Clásico",
+    precio: 190000,
+    img:"img/home-2609600_1280.jpg",
+    descripcion:"Comedor Clásico estilo Renacentista",
+}
+
+const producto3 = {
+    ...producto2,
+    id:"003",
+    nombre:"Sofas Mágicos",
+    precio: 120000,
+    img:"img/living-room-1835923_1280.jpg",
+    descripcion:"Sofas Indios traidos de India(?), especial para el dia del padre",
+    categoria: "Muebles Exterior"
+}
+
+const producto4 = {
+    ...producto3,
+    id:"004",
+    nombre:"Espacios grandes para mentes amplias",
+    precio:290000,
+    img: "img/furniture-998265_1280.jpg",
+    descripcion:"No paga expensas"
+    
+}
+
+// Spread de obejeto para crear uno nuevo
+
+const producto5 = {
+    ...producto4,
+    id: "005",
+    nombre: "Living Spread",
+    descripcion: "Espaciomas spreader",
+    }
 
 // Array de objetos "producto"
-
 const productos = [];
 productos.push(producto1);
 productos.push(producto2);
 productos.push(producto3);
 productos.push(producto4);
-//console.log(productos)
-//console.log(productos.length)
+productos.push(producto5);
+
+
+function filtrarPorCategoria(categoria) { 
+    const productosFiltrados = productos.filter((producto) => producto.categoria === categoria)
+    document.getElementById("cardsdinamicas").innerHTML = ""
+    productosFiltrados.forEach((producto) => {
+        const idButton = `add-cart-${producto.id}`
+        document.getElementById("cardsdinamicas").innerHTML += 
+        `<div class="card col-3 m-2">
+        <img src="${producto.img}" class="card-img-top" alt="comedor">
+        <div class="card-body">
+            <h5 class="card-title">${producto.nombre}</h5>
+            <p class="card-text">${producto.descripcion} <br> <strong>Precio: U$D ${producto.precio}</strong></p>
+            <a id="${idButton}" data-id="${producto.id}" class="btn btn-primary">COMPRAR</a>
+        </div>
+    </div>`
+})}
+
 
 // Modificacion del Titulo con DOM
 
 let titulo = document.getElementById("titulo")
 console.log(titulo.innerText)
 titulo.innerText = "Market Garden-House"
-
-// Creacion de categorias con DOM
-
-let ofertas = document.createElement("div")
-ofertas.innerHTML = (
-    `<h3>Categorias</h3>
-    <h4>Muebles Interior</h4>
-    <h4>Muebles Exterior</h4>
-    `)
-ofertas.classList.add("containner", "bg-light", "mt-5", "mb-5", "text-align-center", "text-danger")
-document.body.append(ofertas)
-
 
 // Funcion dinamica para crear cards de productos
 
@@ -132,17 +180,25 @@ productos.forEach((producto) => {
 })
 
 
-// Funcion Agregar al carrito
+// Agregar al carrito
 
-productos.forEach((producto) => {
-    const idButton = `add-cart-${producto.id}`
-    document.getElementById(idButton).addEventListener('click', (event) => {
+    productos.forEach((producto) => {
+        const idButton = `add-cart-${producto.id}`
+        document.getElementById(idButton).addEventListener('click', (event) => {
         carrito.push(producto)
+        console.log(carrito)
         localStorage.setItem("carrito", JSON.stringify(carrito))
         const total = carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0)
         document.getElementById("carrito-contador").innerHTML = `${carrito.length} - $${total}`
-        })
-})
+        Toastify({
+            text: `Agregaste al carrito ${producto.nombre}`,
+            className: "info",
+            gravity: "bottom",
+            style: {
+            background: "linear-gradient(to right, #dc3545, #6f42c1)",
+            }
+        }).showToast()
+})})
 
 
     /* const index = productos.findIndex((producto) => producto.id === idDelProducto)
@@ -198,4 +254,3 @@ function envios(){
     } */
 
 //pagoEnCuotas()
-

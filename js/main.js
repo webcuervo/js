@@ -164,7 +164,7 @@ function filtrarPorCategoria(categoria) {
 
 let titulo = document.getElementById("titulo")
 console.log(titulo.innerText)
-titulo.innerHTML = `<a class="text-danger" href="index.html">Market Garden-House</a>`
+titulo.innerHTML = `<a class="text-danger" style="text-decoration:none" href="index.html">Market Garden-House</a>`
 
 // Funcion dinamica para crear cards de productos
 

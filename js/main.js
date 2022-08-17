@@ -21,13 +21,14 @@ carrito.length === 0 && Toastify({text: "El carrito está vacío",
 function modalCarrito() {
     document.getElementById("elemento-carrito").innerHTML = ""
     carrito.forEach((producto) => {
+        const total = (producto.cantidad * producto.precio)
         document.getElementById("elemento-carrito").innerHTML += 
         `<tr>
         <th scope="row">${producto.id}</th>
         <td><b>${producto.nombre}</b></td>
         <td><img class="card-img w-25 h-25" src="${producto.img}"></td>
         <td>${producto.cantidad}</td>
-        <td><b>${producto.precio}</b></td>
+        <td><b>${total}</b></td>
         <td><button id="borrar-carrito-${producto.id}" onclick="borrarCarrito(${producto.id})"class="btn btn-danger btn-sm">Eliminar producto</button></td>
         </tr>`
     })
@@ -38,6 +39,7 @@ function modalCarrito() {
 function borrarCarrito(id) {
     const indiceBorrado = carrito.findIndex((producto) => producto.id == id)
     carrito.splice(indiceBorrado, 1)
+    //producto.cantidad --
     localStorage.setItem("carrito", JSON.stringify(carrito))
     const total = carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0)
     //document.getElementById("total-carrito").innerHTML = `Total: $${total}`
@@ -95,7 +97,7 @@ function producto(id, nombre, precio, img, descripcion, categoria, cantidad) {
     this.cantidad = cantidad
 }
 
-const producto1 = new producto("001", "Living Carrara",20000, "img/naomi-hebert-MP0bgaS_d1c-unsplash.jpg", "Living moderno de sofisticado estilo con marmol de Carrara", "Muebles Interior", 1)
+const producto1 = new producto("001", "Living Carrara",20000, "img/naomi-hebert-MP0bgaS_d1c-unsplash.jpg", "Living moderno de sofisticado estilo con marmol de Carrara", "Muebles Interior", 0)
 
 
 // Spread operator
@@ -194,32 +196,37 @@ productos.forEach((producto) => {
         const idButton = `add-cart-${producto.id}`
         const idData = document.getElementById(idButton).dataset.id
         document.getElementById(idButton).addEventListener('click', (event) => {
-        console.log(idButton)
-        console.log(idData)
-        console.log(producto.id)
-        console.log(producto.cantidad)
-        
-        if (idData == producto.id && producto.cantidad == 1) {
+        if (producto.cantidad === 0) {
             carrito.push(producto)
             producto.cantidad ++
-        } if (idData == producto.id && producto.cantidad > 1) {
-        producto.cantidad ++
-        }
-        
-
-        localStorage.setItem("carrito", JSON.stringify(carrito))
-        console.log(carrito)
-        const total = carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0)
-        document.getElementById("carrito-contador").innerHTML = `${carrito.length} - $${total}` 
-        })
             Toastify({
                 text: `Agregaste al carrito ${producto.nombre}`,
                 className: "info",
+                duration: 1500,
                 gravity: "bottom",
                 style: {
                 background: "linear-gradient(to right, #dc3545, #6f42c1)",
             }
         }).showToast()
+        } else {
+        producto.cantidad ++
+        Toastify({
+            text: `Agregaste al carrito ${producto.nombre}`,
+            className: "info",
+            duration: 1500,
+            gravity: "bottom",
+            style: {
+            background: "linear-gradient(to right, #dc3545, #6f42c1)",
+        }
+    }).showToast()
+        }
+        localStorage.setItem("carrito", JSON.stringify(carrito))
+        console.log(carrito)
+        const total = carrito.reduce((acumulador, producto) => acumulador + (producto.cantidad * producto.precio), 0)
+        const carritoCantidad = carrito.reduce((acumulador, producto) => acumulador + producto.cantidad, 0)
+        document.getElementById("carrito-contador").innerHTML = `${carritoCantidad} - $${total}` 
+        })
+            
 })
 
 

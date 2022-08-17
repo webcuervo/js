@@ -26,6 +26,7 @@ function modalCarrito() {
         <th scope="row">${producto.id}</th>
         <td><b>${producto.nombre}</b></td>
         <td><img class="card-img w-25 h-25" src="${producto.img}"></td>
+        <td>${producto.cantidad}</td>
         <td><b>${producto.precio}</b></td>
         <td><button id="borrar-carrito-${producto.id}" onclick="borrarCarrito(${producto.id})"class="btn btn-danger btn-sm">Eliminar producto</button></td>
         </tr>`
@@ -48,6 +49,7 @@ function borrarCarrito(id) {
         <th scope="row">${producto.id}</th>
         <td><b>${producto.nombre}</b></td>
         <td><img class="card-img w-25 h-25" src="${producto.img}"></td>
+        <td>${producto.cantidad}</td>
         <td><b>${producto.precio}</b></td>
         <td><button id="borrar-carrito-${producto.id}" onclick="borrarCarrito(${producto.id})"class="btn btn-danger btn-sm">Eliminar producto</button></td>
         </tr>`
@@ -83,16 +85,17 @@ function finalizarCompra () {
 
 
 // Funcion constructora objetos
-function producto(id, nombre, precio, img, descripcion, categoria) {
+function producto(id, nombre, precio, img, descripcion, categoria, cantidad) {
     this.id = id;
     this.nombre = nombre;
     this.precio = precio;
     this.img = img;
     this.descripcion = descripcion;
     this.categoria = categoria
+    this.cantidad = cantidad
 }
 
-const producto1 = new producto("001", "Living Carrara",20000, "img/naomi-hebert-MP0bgaS_d1c-unsplash.jpg", "Living moderno de sofisticado estilo con marmol de Carrara", "Muebles Interior")
+const producto1 = new producto("001", "Living Carrara",20000, "img/naomi-hebert-MP0bgaS_d1c-unsplash.jpg", "Living moderno de sofisticado estilo con marmol de Carrara", "Muebles Interior", 1)
 
 
 // Spread operator
@@ -141,6 +144,7 @@ productos.push(producto3);
 productos.push(producto4);
 productos.push(producto5);
 
+
 // Funcion de fltrado de por categorias
 
 function filtrarPorCategoria(categoria) { 
@@ -182,25 +186,41 @@ productos.forEach((producto) => {
 })
 
 
+
+
 // Agregar al carrito
 
     productos.forEach((producto) => {
         const idButton = `add-cart-${producto.id}`
+        const idData = document.getElementById(idButton).dataset.id
         document.getElementById(idButton).addEventListener('click', (event) => {
-        carrito.push(producto)
-        console.log(carrito)
+        console.log(idButton)
+        console.log(idData)
+        console.log(producto.id)
+        console.log(producto.cantidad)
+        
+        if (idData == producto.id && producto.cantidad == 1) {
+            carrito.push(producto)
+            producto.cantidad ++
+        } if (idData == producto.id && producto.cantidad > 1) {
+        producto.cantidad ++
+        }
+        
+
         localStorage.setItem("carrito", JSON.stringify(carrito))
+        console.log(carrito)
         const total = carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0)
-        document.getElementById("carrito-contador").innerHTML = `${carrito.length} - $${total}`
-        Toastify({
-            text: `Agregaste al carrito ${producto.nombre}`,
-            className: "info",
-            gravity: "bottom",
-            style: {
-            background: "linear-gradient(to right, #dc3545, #6f42c1)",
+        document.getElementById("carrito-contador").innerHTML = `${carrito.length} - $${total}` 
+        })
+            Toastify({
+                text: `Agregaste al carrito ${producto.nombre}`,
+                className: "info",
+                gravity: "bottom",
+                style: {
+                background: "linear-gradient(to right, #dc3545, #6f42c1)",
             }
         }).showToast()
-})})
+})
 
 
     /* const index = productos.findIndex((producto) => producto.id === idDelProducto)

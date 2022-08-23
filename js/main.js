@@ -3,7 +3,8 @@
 
 const carrito = JSON.parse(localStorage.getItem("carrito")) ??  []
 const total = carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0)
-document.getElementById("carrito-contador").innerHTML = `${carrito.length} - $${total}`
+const carritoCantidad = carrito.reduce((acumulador, producto) => acumulador + producto.cantidad, 0)
+document.getElementById("carrito-contador").innerHTML = `${carritoCantidad} - $${total}`
 
 
 // Uso del operador AND
@@ -37,26 +38,27 @@ function modalCarrito() {
 // Funcion borrar elemento de carrito
 
 function borrarCarrito(id) {
-    const indiceBorrado = carrito.findIndex((producto) => producto.id == id)
-    carrito.splice(indiceBorrado, 1)
-    //producto.cantidad --
-    localStorage.setItem("carrito", JSON.stringify(carrito))
-    const total = carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0)
+    const indiceBorrado = carrito.filter((producto) => producto.id == id)
+    console.log(indiceBorrado)
+    indiceBorrado.forEach((producto) => {
+        producto.cantidad --
+        localStorage.setItem("carrito", JSON.stringify(carrito))
+    const total = carrito.reduce((acumulador, producto) => acumulador + (producto.cantidad * producto.precio), 0) 
+    //const total = carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0)
+    const carritoCantidad = carrito.reduce((acumulador, producto) => acumulador + producto.cantidad, 0)
     //document.getElementById("total-carrito").innerHTML = `Total: $${total}`
-    document.getElementById("carrito-contador").innerHTML = `${carrito.length} - $${total}`
+    document.getElementById("carrito-contador").innerHTML = `${carritoCantidad} - $${total}`
     document.getElementById("elemento-carrito").innerHTML = ""
-    carrito.forEach((producto) => {
         document.getElementById("elemento-carrito").innerHTML +=
         `<tr>
         <th scope="row">${producto.id}</th>
         <td><b>${producto.nombre}</b></td>
         <td><img class="card-img w-25 h-25" src="${producto.img}"></td>
         <td>${producto.cantidad}</td>
-        <td><b>${producto.precio}</b></td>
+        <td><b>${total}</b></td>
         <td><button id="borrar-carrito-${producto.id}" onclick="borrarCarrito(${producto.id})"class="btn btn-danger btn-sm">Eliminar producto</button></td>
-        </tr>`
-    })
-    }
+        </tr>`    
+    })}
 
 // Funcion vaciar carrito
 
@@ -85,67 +87,14 @@ function finalizarCompra () {
 })} 
 
 
-
-// Funcion constructora objetos
-function producto(id, nombre, precio, img, descripcion, categoria, cantidad) {
-    this.id = id;
-    this.nombre = nombre;
-    this.precio = precio;
-    this.img = img;
-    this.descripcion = descripcion;
-    this.categoria = categoria
-    this.cantidad = cantidad
-}
-
-const producto1 = new producto("001", "Living Carrara",20000, "img/naomi-hebert-MP0bgaS_d1c-unsplash.jpg", "Living moderno de sofisticado estilo con marmol de Carrara", "Muebles Interior", 0)
-
-
-// Spread operator
-
-const producto2 = {
-    ...producto1,
-    id:"002",
-    nombre:"Comedor Clásico",
-    precio: 190000,
-    img:"img/home-2609600_1280.jpg",
-    descripcion:"Comedor Clásico estilo Renacentista",
-}
-
-const producto3 = {
-    ...producto2,
-    id:"003",
-    nombre:"Sofas Mágicos",
-    precio: 120000,
-    img:"img/living-room-1835923_1280.jpg",
-    descripcion:"Sofas Indios traidos de India(?), especial para el dia del padre",
-    categoria: "Muebles Exterior"
-}
-
-const producto4 = {
-    ...producto3,
-    id:"004",
-    nombre:"Espacios grandes para mentes amplias",
-    precio:290000,
-    img: "img/furniture-998265_1280.jpg",
-    descripcion:"No paga expensas"
-    
-}
-
-const producto5 = {
-    ...producto4,
-    id: "005",
-    nombre: "Living Spread",
-    descripcion: "Espaciomas spreader",
-    }
-
-// Array de objetos "producto"
-const productos = [];
-productos.push(producto1);
-productos.push(producto2);
-productos.push(producto3);
-productos.push(producto4);
-productos.push(producto5);
-
+fetch('js/productos.json')
+    .then((res) => res.json())
+    .then((productosjson) => { 
+        productos = productosjson
+        console.log(productos)
+    cardsProductos(productos)
+    agregarAlCarrito()
+    })
 
 // Funcion de fltrado de por categorias
 
@@ -162,39 +111,10 @@ function filtrarPorCategoria(categoria) {
             <p class="card-text">${producto.descripcion} <br> <strong>Precio: U$D ${producto.precio}</strong></p>
             <a id="${idButton}" data-id="${producto.id}" class="btn btn-primary">COMPRAR</a>
         </div>
-    </div>`
-})}
-
-
-// Modificacion del Titulo con DOM
-
-let titulo = document.getElementById("titulo")
-console.log(titulo.innerText)
-titulo.innerHTML = `<a class="text-danger" style="text-decoration:none" href="index.html">Market Garden-House</a>`
-
-// Funcion dinamica para crear cards de productos
-
-productos.forEach((producto) => {
-    const idButton = `add-cart-${producto.id}`
-    document.getElementById("cardsdinamicas").innerHTML += 
-    `<div class="card col-3 m-2">
-    <img src="${producto.img}" class="card-img-top" alt="comedor">
-    <div class="card-body">
-        <h5 class="card-title">${producto.nombre}</h5>
-        <p class="card-text">${producto.descripcion} <br> <strong>Precio: U$D ${producto.precio}</strong></p>
-        <a id="${idButton}" data-id="${producto.id}" class="btn btn-primary">COMPRAR</a>
-    </div>
-</div>`
-})
-
-
-
-
-// Agregar al carrito
-
-    productos.forEach((producto) => {
+    </div>`})
+        console.log(productosFiltrados)
+        productosFiltrados.forEach((producto) => {
         const idButton = `add-cart-${producto.id}`
-        const idData = document.getElementById(idButton).dataset.id
         document.getElementById(idButton).addEventListener('click', (event) => {
         if (producto.cantidad === 0) {
             carrito.push(producto)
@@ -218,16 +138,88 @@ productos.forEach((producto) => {
             style: {
             background: "linear-gradient(to right, #dc3545, #6f42c1)",
         }
-    }).showToast()
-        }
+    }).showToast()}
         localStorage.setItem("carrito", JSON.stringify(carrito))
         console.log(carrito)
         const total = carrito.reduce((acumulador, producto) => acumulador + (producto.cantidad * producto.precio), 0)
         const carritoCantidad = carrito.reduce((acumulador, producto) => acumulador + producto.cantidad, 0)
         document.getElementById("carrito-contador").innerHTML = `${carritoCantidad} - $${total}` 
         })
+
+        })
+        }
+
+
+
+
+
+// Modificacion del Titulo con DOM
+
+let titulo = document.getElementById("titulo")
+console.log(titulo.innerText)
+titulo.innerHTML = `<a class="text-danger" style="text-decoration:none" href="index.html">Market Garden-House</a>`
+
+// Funcion dinamica para crear cards de productos
+function cardsProductos() {
+    productos.forEach((producto) => {
+    const idButton = `add-cart-${producto.id}`
+    document.getElementById("cardsdinamicas").innerHTML += 
+    `<div class="card col-3 m-2">
+    <img src="${producto.img}" class="card-img-top" alt="comedor">
+    <div class="card-body">
+        <h5 class="card-title">${producto.nombre}</h5>
+        <p class="card-text">${producto.descripcion} <br> <strong>Precio: U$D ${producto.precio}</strong></p>
+        <a id="${idButton}" data-id="${producto.id}" class="btn btn-primary">COMPRAR</a>
+    </div>
+</div>`
+})
+}
+
+// Agregar al carrito
+function agregarAlCarrito(){
+    productos.forEach((producto) => {
+        const idButton = `add-cart-${producto.id}`
+        const idData = document.getElementById(idButton).dataset.id
+        document.getElementById(idButton).addEventListener('click', (event) => {
+        
+
+        //})
+        if (idData === producto.id && producto.cantidad === 0) {
+            carrito.push(producto)
+            producto.cantidad ++
+            Toastify({
+                text: `Agregaste al carrito ${producto.nombre}`,
+                className: "info",
+                duration: 1500,
+                gravity: "bottom",
+                style: {
+                background: "linear-gradient(to right, #dc3545, #6f42c1)",
+            }
+        }).showToast()
+        } else  {
+            producto.cantidad ++
+        }
+        
+        Toastify({
+            text: `Agregaste al carrito ${producto.nombre}`,
+            className: "info",
+            duration: 1500,
+            gravity: "bottom",
+            style: {
+            background: "linear-gradient(to right, #dc3545, #6f42c1)",
+        }
+    }).showToast()
+        
+        localStorage.setItem("carrito", JSON.stringify(carrito))
+        const total = carrito.reduce((acumulador, producto) => acumulador + (producto.cantidad * producto.precio), 0)
+        const carritoCantidad = carrito.reduce((acumulador, producto) => acumulador + producto.cantidad, 0)
+        document.getElementById("carrito-contador").innerHTML = `${carritoCantidad} - $${total}` 
+        })
+    console.log(carrito)
             
 })
+}
+    
 
 
     /* const index = productos.findIndex((producto) => producto.id === idDelProducto)

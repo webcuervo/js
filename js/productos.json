@@ -1,0 +1,16 @@
+
+[  
+    {"id":"001", "nombre":"Living Carrara", "precio": 20000, "img": "img/naomi-hebert-MP0bgaS_d1c-unsplash.jpg", "descripcion": "Living moderno de sofisticado estilo con marmol de Carrara", "categoria": "Muebles Interior","cantidad": 0},
+
+    {"id":"002", "nombre":"Comedor Clásico", "precio": 190000, "img": "img/home-2609600_1280.jpg", "descripcion": "Comedor Clásico estilo Renacentista", "categoria": "Muebles Interior","cantidad": 0},
+
+    {"id":"003", "nombre":"Sofas Mágicos", "precio": 120000, "img": "img/living-room-1835923_1280.jpg", "descripcion": "Sofas Indios traidos de India(?), especial para el dia del padre", "categoria": "Muebles Exterior","cantidad": 0},
+
+    {"id":"004", "nombre":"Espacios grandes para mentes amplias", "precio": 290000, "img": "img/furniture-998265_1280.jpg", "descripcion": "No paga expensas", "categoria": "Muebles Exterior","cantidad": 0},
+
+    {"id":"005", "nombre":"Living Spread", "precio": 420000, "img": "img/naomi-hebert-MP0bgaS_d1c-unsplash.jpg", "descripcion": "Espaciomas spreader", "categoria": "Muebles Exterior","cantidad": 0}
+]
+
+
+
+

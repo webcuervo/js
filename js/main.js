@@ -39,7 +39,7 @@ function modalCarrito() {
 
 function borrarCarrito(id) {
     const indiceBorrado = carrito.filter((producto) => producto.id == id)
-    console.log(indiceBorrado)
+    //console.log(indiceBorrado)
     indiceBorrado.forEach((producto) => {
         producto.cantidad --
         localStorage.setItem("carrito", JSON.stringify(carrito))
@@ -48,7 +48,9 @@ function borrarCarrito(id) {
     const carritoCantidad = carrito.reduce((acumulador, producto) => acumulador + producto.cantidad, 0)
     //document.getElementById("total-carrito").innerHTML = `Total: $${total}`
     document.getElementById("carrito-contador").innerHTML = `${carritoCantidad} - $${total}`
-    document.getElementById("elemento-carrito").innerHTML = ""
+    })
+    modalCarrito()
+    /* document.getElementById("elemento-carrito").innerHTML = ""
         document.getElementById("elemento-carrito").innerHTML +=
         `<tr>
         <th scope="row">${producto.id}</th>
@@ -57,8 +59,8 @@ function borrarCarrito(id) {
         <td>${producto.cantidad}</td>
         <td><b>${total}</b></td>
         <td><button id="borrar-carrito-${producto.id}" onclick="borrarCarrito(${producto.id})"class="btn btn-danger btn-sm">Eliminar producto</button></td>
-        </tr>`    
-    })}
+        </tr>`  */   
+    }
 
 // Funcion vaciar carrito
 
@@ -92,8 +94,8 @@ fetch('js/productos.json')
     .then((productosjson) => { 
         productos = productosjson
         console.log(productos)
-    cardsProductos(productos)
-    agregarAlCarrito()
+        cardsProductos(productos)
+        agregarAlCarrito()
     })
 
 // Funcion de fltrado de por categorias

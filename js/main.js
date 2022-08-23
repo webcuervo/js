@@ -1,11 +1,8 @@
-
 // Uso del Nullish coalescing operator
-
 const carrito = JSON.parse(localStorage.getItem("carrito")) ??  []
 const total = carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0)
 const carritoCantidad = carrito.reduce((acumulador, producto) => acumulador + producto.cantidad, 0)
 document.getElementById("carrito-contador").innerHTML = `${carritoCantidad} - $${total}`
-
 
 // Uso del operador AND
 function toastCarritoVacio() {
@@ -13,14 +10,9 @@ function toastCarritoVacio() {
                             className: "info", 
                             gravity: "bottom", 
                             style:{background:"linear-gradient(to right, #dc3545, #6f42c1)",
-                            }}).showToast()
-}
-
-
-
+                            }}).showToast()}
 
 // Generar modal de carrito
-
 function modalCarrito() {
     document.getElementById("elemento-carrito").innerHTML = ""
     carrito.forEach((producto) => {
@@ -34,11 +26,9 @@ function modalCarrito() {
         <td><b>${total}</b></td>
         <td><button id="borrar-carrito-${producto.id}" onclick="borrarCarrito(${producto.id})"class="btn btn-danger btn-sm">Eliminar producto</button></td>
         </tr>`
-    })
-}
+    })}
 
 // Funcion borrar elemento de carrito
-
 function borrarCarrito(id) {
     const indiceBorrado = carrito.findIndex((producto) => producto.id == id)
     const productoABorrar = carrito.filter((producto) => producto.id == id)
@@ -57,33 +47,18 @@ function borrarCarrito(id) {
         document.getElementById("carrito-contador").innerHTML = `${carritoCantidad} - $${total}`
         })
         modalCarrito()
-        toastCarritoVacio()
-        /* document.getElementById("elemento-carrito").innerHTML = ""
-        document.getElementById("elemento-carrito").innerHTML +=
-        `<tr>
-        <th scope="row">${producto.id}</th>
-        <td><b>${producto.nombre}</b></td>
-        <td><img class="card-img w-25 h-25" src="${producto.img}"></td>
-        <td>${producto.cantidad}</td>
-        <td><b>${total}</b></td>
-        <td><button id="borrar-carrito-${producto.id}" onclick="borrarCarrito(${producto.id})"class="btn btn-danger btn-sm">Eliminar producto</button></td>
-        </tr>`  */   
-    }
+        toastCarritoVacio()}
 
 // Funcion vaciar carrito
-
 function vaciarCarrito() {
             const carrito = []
             document.getElementById("elemento-carrito").innerHTML = ""
             localStorage.setItem("carrito", JSON.stringify(carrito))
             const total = carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0)
             document.getElementById("carrito-contador").innerHTML = `${carrito.length} - $${total}`
-            window.location.reload()
-
-}
+            window.location.reload()}
 
 // Funcion finalizar compra y reinicar el proceso
-
 function finalizarCompra () {
     carrito.forEach((producto) => {
         const carrito = []
@@ -92,22 +67,18 @@ function finalizarCompra () {
         const total = carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0)
         document.getElementById("carrito-contador").innerHTML = `${carrito.length} - $${total}`
         window.open('pages/fincompra.html')
-        window.location.reload()
-        
-})} 
+        window.location.reload()})} 
 
-
+// Fetch del array de productos
 fetch('js/productos.json')
     .then((res) => res.json())
     .then((productosjson) => { 
         productos = productosjson
         console.log(productos)
         cardsProductos(productos)
-        agregarAlCarrito()
-    })
+        agregarAlCarrito()})
 
 // Funcion de fltrado de por categorias
-
 function filtrarPorCategoria(categoria) { 
     const productosFiltrados = productos.filter((producto) => producto.categoria === categoria)
     document.getElementById("cardsdinamicas").innerHTML = ""
@@ -154,17 +125,9 @@ function filtrarPorCategoria(categoria) {
         const total = carrito.reduce((acumulador, producto) => acumulador + (producto.cantidad * producto.precio), 0)
         const carritoCantidad = carrito.reduce((acumulador, producto) => acumulador + producto.cantidad, 0)
         document.getElementById("carrito-contador").innerHTML = `${carritoCantidad} - $${total}` 
-        })
-
-        })
-        }
-
-
-
-
+        })})}
 
 // Modificacion del Titulo con DOM
-
 let titulo = document.getElementById("titulo")
 console.log(titulo.innerText)
 titulo.innerHTML = `<a class="text-danger" style="text-decoration:none" href="index.html">Market Garden-House</a>`
@@ -181,9 +144,7 @@ function cardsProductos() {
         <p class="card-text">${producto.descripcion} <br> <strong>Precio: U$D ${producto.precio}</strong></p>
         <a id="${idButton}" data-id="${producto.id}" class="btn btn-primary">COMPRAR</a>
     </div>
-</div>`
-})
-}
+</div>`})}
 
 // Agregar al carrito
 function agregarAlCarrito(){
@@ -200,8 +161,7 @@ function agregarAlCarrito(){
                 duration: 1500,
                 gravity: "bottom",
                 style: {
-                background: "linear-gradient(to right, #dc3545, #6f42c1)",
-            }
+                background: "linear-gradient(to right, #dc3545, #6f42c1)",}
         }).showToast()
         } else  {
             producto.cantidad ++
@@ -211,29 +171,21 @@ function agregarAlCarrito(){
             duration: 1500,
             gravity: "bottom",
             style: {
-            background: "linear-gradient(to right, #dc3545, #6f42c1)",
-        }
-    }).showToast()
-        }
-        
-        
-        
+            background: "linear-gradient(to right, #dc3545, #6f42c1)",}
+        }).showToast()}
         localStorage.setItem("carrito", JSON.stringify(carrito))
         const total = carrito.reduce((acumulador, producto) => acumulador + (producto.cantidad * producto.precio), 0)
         const carritoCantidad = carrito.reduce((acumulador, producto) => acumulador + producto.cantidad, 0)
         document.getElementById("carrito-contador").innerHTML = `${carritoCantidad} - $${total}` 
         })
-    console.log(carrito)
-            
-})
-}
+    console.log(carrito)})}
     
 
 
-    /* const index = productos.findIndex((producto) => producto.id === idDelProducto)
-    productos.splice(index, 1)
-    console.log(productos)
-    console.log(productos.length) 
+/* const index = productos.findIndex((producto) => producto.id === idDelProducto)
+productos.splice(index, 1)
+console.log(productos)
+console.log(productos.length) 
 
 //borrarProducto(idDelProducto = prompt("Ingrese el id a eliminar"))
 

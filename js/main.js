@@ -8,12 +8,14 @@ document.getElementById("carrito-contador").innerHTML = `${carritoCantidad} - $$
 
 
 // Uso del operador AND
-
-carrito.length === 0 && Toastify({text: "El carrito está vacío", 
+function toastCarritoVacio() {
+    carrito.length === 0 && Toastify({text: "El carrito está vacío", 
                             className: "info", 
                             gravity: "bottom", 
                             style:{background:"linear-gradient(to right, #dc3545, #6f42c1)",
-                            }}).showToast() 
+                            }}).showToast()
+}
+
 
 
 
@@ -38,19 +40,25 @@ function modalCarrito() {
 // Funcion borrar elemento de carrito
 
 function borrarCarrito(id) {
-    const indiceBorrado = carrito.filter((producto) => producto.id == id)
-    //console.log(indiceBorrado)
-    indiceBorrado.forEach((producto) => {
-        producto.cantidad --
+    const indiceBorrado = carrito.findIndex((producto) => producto.id == id)
+    const productoABorrar = carrito.filter((producto) => producto.id == id)
+    console.log(indiceBorrado)
+    productoABorrar.forEach((producto) => {
+        if (producto.cantidad >= 1) {
+            producto.cantidad --
+        }
+        if (producto.cantidad === 0) {
+            //producto.cantidad --
+            carrito.splice(indiceBorrado, 1)
+        }
         localStorage.setItem("carrito", JSON.stringify(carrito))
-    const total = carrito.reduce((acumulador, producto) => acumulador + (producto.cantidad * producto.precio), 0) 
-    //const total = carrito.reduce((acumulador, producto) => acumulador + producto.precio, 0)
-    const carritoCantidad = carrito.reduce((acumulador, producto) => acumulador + producto.cantidad, 0)
-    //document.getElementById("total-carrito").innerHTML = `Total: $${total}`
-    document.getElementById("carrito-contador").innerHTML = `${carritoCantidad} - $${total}`
-    })
-    modalCarrito()
-    /* document.getElementById("elemento-carrito").innerHTML = ""
+        const total = carrito.reduce((acumulador, producto) => acumulador + (producto.cantidad * producto.precio), 0) 
+        const carritoCantidad = carrito.reduce((acumulador, producto) => acumulador + producto.cantidad, 0)
+        document.getElementById("carrito-contador").innerHTML = `${carritoCantidad} - $${total}`
+        })
+        modalCarrito()
+        toastCarritoVacio()
+        /* document.getElementById("elemento-carrito").innerHTML = ""
         document.getElementById("elemento-carrito").innerHTML +=
         `<tr>
         <th scope="row">${producto.id}</th>
@@ -183,9 +191,6 @@ function agregarAlCarrito(){
         const idButton = `add-cart-${producto.id}`
         const idData = document.getElementById(idButton).dataset.id
         document.getElementById(idButton).addEventListener('click', (event) => {
-        
-
-        //})
         if (idData === producto.id && producto.cantidad === 0) {
             carrito.push(producto)
             producto.cantidad ++
@@ -200,9 +205,7 @@ function agregarAlCarrito(){
         }).showToast()
         } else  {
             producto.cantidad ++
-        }
-        
-        Toastify({
+            Toastify({
             text: `Agregaste al carrito ${producto.nombre}`,
             className: "info",
             duration: 1500,
@@ -211,6 +214,9 @@ function agregarAlCarrito(){
             background: "linear-gradient(to right, #dc3545, #6f42c1)",
         }
     }).showToast()
+        }
+        
+        
         
         localStorage.setItem("carrito", JSON.stringify(carrito))
         const total = carrito.reduce((acumulador, producto) => acumulador + (producto.cantidad * producto.precio), 0)
